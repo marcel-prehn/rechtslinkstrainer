@@ -1,0 +1,31 @@
+Container(
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      child: Icon(
+                        Icons.golf_course,
+                        color: Colors.blue,
+                      ),
+                    )),
+                Expanded(
+                    flex: 2,
+                    child: Container(
+                      child: Text("Fortschritt: $progress"),
+                    )),
+                Expanded(
+                    flex: 3,
+                    child: Container(
+                      padding: EdgeInsets.only(right: 32),
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/Listview");
+                        },
+                        color: Colors.blue,
+                        child: Text("Übung starten"),
+                      ),
+                    )),
+              ],
+            ),
+          ),
