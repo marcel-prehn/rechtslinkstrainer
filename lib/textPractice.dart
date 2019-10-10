@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rechtslinkstrainer/db.dart';
+import 'package:rechtslinkstrainer/result.dart';
+import 'package:uuid/uuid.dart';
 
 enum Side { LEFT, RIGHT }
 
@@ -13,6 +16,7 @@ class TextPractice extends StatefulWidget {
 }
 
 class TextPracticeState extends State<TextPractice> {
+  static final int PRACTICE_ID = 1;
   static final String TEXT_LEFT = "Links wählen";
   static final String TEXT_RIGHT = "Rechts wählen";
   static final String TEXT_ERROR = "Da ist ein Fehler aufgetreten...";
@@ -20,8 +24,8 @@ class TextPracticeState extends State<TextPractice> {
   static final String TEXT_INCORRECT = "Das war leider falsch...";
   static final int DURATION = 200;
   Side correctSide;
-  var correctAnswers = 0;
-  var incorrectAnswers = 0;
+  int correctAnswers = 0;
+  int incorrectAnswers = 0;
 
   String shuffle() {
     var random = new Random();
@@ -107,8 +111,16 @@ class TextPracticeState extends State<TextPractice> {
               ),
               FlatButton(
                 child: Text("Beenden"),
-                onPressed: () {
-                  Navigator.popAndPushNamed(context, "/");
+                onPressed: () async {
+                  var uuid = new Uuid();
+                  Result res = new Result(
+                      uuid: uuid.v4(),
+                      practiceId: PRACTICE_ID,
+                      timestamp: DateTime.now().toIso8601String(),
+                      correct: correctAnswers,
+                      incorrect: incorrectAnswers);
+                  await DbProvider.db.saveResult(res);
+                  Navigator.popUntil(context, ModalRoute.withName("/"));
                 },
               )
             ],
@@ -164,14 +176,16 @@ class TextPracticeState extends State<TextPractice> {
                 ),
                 Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.all(12),
-                  child: Text("Korrekte Anworten: $correctAnswers / ${correctAnswers+incorrectAnswers}"),
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                      "Korrekte Anworten: $correctAnswers / ${correctAnswers + incorrectAnswers}"),
                 ),
               ],
             );
           })),
       onWillPop: () {
         showConfirmationDialog(context);
+        return new Future.value(false);
       },
     );
   }

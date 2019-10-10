@@ -1,21 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rechtslinkstrainer/db.dart';
+import 'package:rechtslinkstrainer/progress.dart';
 import 'package:rechtslinkstrainer/textPractice.dart';
 
 void main() {
   var routes = <String, WidgetBuilder>{
     "/TextPractice": (BuildContext context) => new TextPractice(),
   };
+
   runApp(MaterialApp(
     title: 'Navigation Basics',
     theme: ThemeData.dark(),
     home: new Overview(),
+    debugShowCheckedModeBanner: false,
     routes: routes,
   ));
+
+  getProgress(1);
+}
+
+getProgress(int practiceId) {
+  var progress = DbProvider.db.getProgressByPracticeId(practiceId);
+  progress.then((val) => debugPrint(val.value.toString()));
+  return progress;
 }
 
 class OverviewState extends State<Overview> {
-  int progress = 0;
 
   Widget Titlebar = Container(
       padding: const EdgeInsets.all(32),
@@ -65,6 +76,17 @@ class OverviewState extends State<Overview> {
                     child: ListTile(
                       leading: Icon(Icons.directions),
                       title: Text("Textuelle Übung"),
+                      subtitle: FutureBuilder<Progress>(
+                        future: getProgress(1),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Progress> snapshot) {
+                          if (snapshot.hasData && snapshot.data.value != null) {
+                            return Text("${snapshot.data.value}% richtige Antworten");
+                          } else {
+                            return Text("keine Daten vorhanden");
+                          }
+                        },
+                      ),
                       trailing: Icon(Icons.chevron_right),
                       contentPadding: EdgeInsets.all(8),
                       onTap: () {
