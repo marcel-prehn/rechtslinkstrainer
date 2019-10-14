@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:synchronized/synchronized.dart';
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,9 +10,9 @@ import 'package:rechtslinkstrainer/Result.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbProvider {
-  static final String DATABASE = "results.db";
-  static final String TABLE_NAME = "results";
-  static final int DATABASE_VERSION = 4;
+  static const String DATABASE = "results.db";
+  static const String TABLE_NAME = "results";
+  static const int DATABASE_VERSION = 4;
 
   DbProvider._();
 
@@ -72,18 +70,16 @@ class DbProvider {
 
   Future<List<Result>> getResultsByPracticeId(int practiceId) async {
     final db = await database;
-    var res = await db
-        .query(TABLE_NAME, where: "practice_id = ? ", whereArgs: [practiceId]);
-    List<Result> list =
-    res.isNotEmpty ? res.map((c) => Result.fromMap(c)).toList() : [];
+    var res = await db.query(TABLE_NAME, where: "practice_id = ? ", whereArgs: [practiceId]);
+    List<Result> list = res.isNotEmpty ? res.map((c) => Result.fromMap(c)).toList() : [];
     return list;
   }
 
   Future<Progress> getProgressByPracticeId(int practiceId) async {
     final db = await database;
     var res = await db.rawQuery(
-        "SELECT round(SUM(correct) / cast((SUM(correct) + SUM(incorrect)) as float), 4) * 100 AS value from results WHERE practice_id = 1;");
-    debugPrint("Found progress by practice id: ${res.toString()}");
+        "SELECT round(SUM(correct) / cast((SUM(correct) + SUM(incorrect)) as float), 4) * 100 AS value from results WHERE practice_id = $practiceId;");
+    debugPrint("Found progress ${res.first.toString()} by practice id $practiceId");
     return res.isNotEmpty ? Progress.fromMap(res.first) : null;
   }
 

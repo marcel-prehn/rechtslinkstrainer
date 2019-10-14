@@ -21,9 +21,7 @@ void main() {
 }
 
 getProgress(int practiceId) {
-  var progress = DbProvider.db.getProgressByPracticeId(practiceId);
-  progress.then((val) => debugPrint(val.value.toString()));
-  return progress;
+  return DbProvider.db.getProgressByPracticeId(practiceId);
 }
 
 class OverviewState extends State<Overview> {

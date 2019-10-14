@@ -48,13 +48,19 @@ class CubicPracticeState extends State<CubicPractice> {
   onButtonPressed(CubicSide side) {
     if (side == correctSide) {
       correctAnswers++;
+      indicateCorrectAnswer();
       setState(() {});
     } else {
       incorrectAnswers++;
+      setState(() {});
     }
   }
 
-  Widget showConfirmationDialog(BuildContext context) {
+  indicateCorrectAnswer() {
+    
+  }
+
+  showConfirmationDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -195,14 +201,15 @@ class CubicPracticeState extends State<CubicPractice> {
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(16),
                   child: Text(
-                      "Korrekte Anworten: ${correctAnswers}/${correctAnswers + incorrectAnswers}"),
+                      "Korrekte Anworten: $correctAnswers/${correctAnswers + incorrectAnswers}"),
                 ),
               ],
             );
           }),
         ),
         onWillPop: () {
-          return new Future.value(true);
+          showConfirmationDialog(context);
+          return new Future.value(false);
         });
   }
 }

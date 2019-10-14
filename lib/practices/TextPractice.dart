@@ -15,12 +15,12 @@ class TextPractice extends StatefulWidget {
 }
 
 class TextPracticeState extends State<TextPractice> {
-  static final String TEXT_LEFT = "Links wählen";
-  static final String TEXT_RIGHT = "Rechts wählen";
-  static final String TEXT_ERROR = "Da ist ein Fehler aufgetreten...";
-  static final String TEXT_CORRECT = "Das war richtig!";
-  static final String TEXT_INCORRECT = "Das war leider falsch...";
-  static final int DURATION = 200;
+  static const String TEXT_LEFT = "Links wählen";
+  static const String TEXT_RIGHT = "Rechts wählen";
+  static const String TEXT_ERROR = "Da ist ein Fehler aufgetreten...";
+  static const String TEXT_CORRECT = "Das war richtig!";
+  static const String TEXT_INCORRECT = "Das war leider falsch...";
+  static const int DURATION = 200;
   Side correctSide;
   int correctAnswers = 0;
   int incorrectAnswers = 0;
@@ -30,11 +30,9 @@ class TextPracticeState extends State<TextPractice> {
     var nextValue = random.nextInt(999);
     if (nextValue % 2 == 0) {
       correctSide = Side.LEFT;
-      debugPrint("Random int: $nextValue, correct side: $correctSide");
       return TEXT_LEFT;
     }
     correctSide = Side.RIGHT;
-    debugPrint("Random int: $nextValue, correct side: $correctSide");
     return TEXT_RIGHT;
   }
 
@@ -70,7 +68,6 @@ class TextPracticeState extends State<TextPractice> {
       backgroundColor: Colors.green[200],
     ));
     setState(() {
-      debugPrint("set state after correct answer");
     });
   }
 
@@ -81,7 +78,6 @@ class TextPracticeState extends State<TextPractice> {
       backgroundColor: Colors.red[200],
     ));
     setState(() {
-      debugPrint("set state after incorrect answer");
     });
   }
 
@@ -93,7 +89,7 @@ class TextPracticeState extends State<TextPractice> {
     incorrectAnswers++;
   }
 
-  Widget showConfirmationDialog(BuildContext context) {
+  showConfirmationDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -153,6 +149,7 @@ class TextPracticeState extends State<TextPractice> {
                         child: Container(
                           height: double.infinity,
                           child: FlatButton(
+                              child: null,
                               color: Colors.grey[200],
                               onPressed: () {
                                 onButtonPressed(context, Side.LEFT);
@@ -164,6 +161,7 @@ class TextPracticeState extends State<TextPractice> {
                         child: Container(
                           height: double.infinity,
                           child: FlatButton(
+                              child: null,
                               color: Colors.grey[300],
                               onPressed: () {
                                 onButtonPressed(context, Side.RIGHT);
