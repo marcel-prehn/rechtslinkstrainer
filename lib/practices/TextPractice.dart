@@ -10,6 +10,7 @@ enum Side { LEFT, RIGHT }
 class TextPractice extends StatefulWidget {
   static const PRACTICE_ID = 1;
   TextPractice({Key key}) : super(key: key);
+
   @override
   TextPracticeState createState() => TextPracticeState();
 }
@@ -21,9 +22,20 @@ class TextPracticeState extends State<TextPractice> {
   static const String TEXT_CORRECT = "Das war richtig!";
   static const String TEXT_INCORRECT = "Das war leider falsch...";
   static const int DURATION = 200;
-  Side correctSide;
-  int correctAnswers = 0;
-  int incorrectAnswers = 0;
+  var correctSide;
+  var correctAnswers;
+  var incorrectAnswers;
+  var bottomBarColor;
+  var bottomTextColor;
+
+  @override
+  void initState() {
+    super.initState();
+    bottomBarColor = Colors.grey[800];
+    bottomTextColor = Colors.white;
+    correctAnswers = 0;
+    incorrectAnswers = 0;
+  }
 
   String shuffle() {
     var random = new Random();
@@ -38,55 +50,19 @@ class TextPracticeState extends State<TextPractice> {
 
   onButtonPressed(BuildContext context, Side selectedSide) {
     debugPrint("correct side: $correctSide, selected side: $selectedSide");
-    if (selectedSide == null) {
-      displayError(context);
-    } else if (selectedSide == correctSide) {
-      countCorrectAnswer();
-      displayCorrectAnswer(context);
+    if (selectedSide == correctSide) {
+      setState(() {
+        correctAnswers++;
+        bottomBarColor = Colors.green[200];
+        bottomTextColor = Colors.grey[850];
+      });
     } else {
-      countIncorrectAnswer();
-      displayIncorrectAnswer(context);
+      setState(() {
+        incorrectAnswers++;
+        bottomBarColor = Colors.red[200];
+        bottomTextColor = Colors.grey[850];
+      });
     }
-  }
-
-  void displayError(BuildContext context) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(TEXT_ERROR),
-      action: SnackBarAction(
-        label: "Wiederholen",
-        onPressed: () {
-          shuffle();
-        },
-      ),
-    ));
-  }
-
-  void displayCorrectAnswer(BuildContext context) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(TEXT_CORRECT),
-      duration: Duration(milliseconds: DURATION),
-      backgroundColor: Colors.green[200],
-    ));
-    setState(() {
-    });
-  }
-
-  void displayIncorrectAnswer(BuildContext context) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(TEXT_INCORRECT),
-      duration: Duration(milliseconds: DURATION),
-      backgroundColor: Colors.red[200],
-    ));
-    setState(() {
-    });
-  }
-
-  void countCorrectAnswer() {
-    correctAnswers++;
-  }
-
-  void countIncorrectAnswer() {
-    incorrectAnswers++;
   }
 
   showConfirmationDialog(BuildContext context) {
@@ -172,11 +148,12 @@ class TextPracticeState extends State<TextPractice> {
                   ),
                 ),
                 Container(
-                  color: Colors.grey[800],
+                  color: bottomBarColor,
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(16),
                   child: Text(
-                      "Korrekte Anworten: $correctAnswers / ${correctAnswers + incorrectAnswers}"),
+                      "Korrekte Anworten: $correctAnswers / ${correctAnswers + incorrectAnswers}",
+                      style: TextStyle(color: bottomTextColor)),
                 ),
               ],
             );

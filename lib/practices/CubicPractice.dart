@@ -24,8 +24,19 @@ class CubicPracticeState extends State<CubicPractice> {
   static const TEXT_UNTEN_LINKS = "Unten links";
   static const TEXT_UNTEN_RECHTS = "Unten rechts";
   var correctSide;
-  var correctAnswers = 0;
-  var incorrectAnswers = 0;
+  var correctAnswers;
+  var incorrectAnswers;
+  var bottomBarColor;
+  var bottomTextColor;
+
+  @override
+  void initState() {
+    super.initState();
+    correctAnswers = 0;
+    incorrectAnswers = 0;
+    bottomBarColor = Colors.grey[800];
+    bottomTextColor = Colors.white;
+  }
 
   String shuffle() {
     var random = new Random();
@@ -48,16 +59,18 @@ class CubicPracticeState extends State<CubicPractice> {
   onButtonPressed(CubicSide side) {
     if (side == correctSide) {
       correctAnswers++;
-      indicateCorrectAnswer();
-      setState(() {});
+      setState(() {
+        correctAnswers++;
+        bottomBarColor = Colors.green[200];
+        bottomTextColor = Colors.grey[850];
+      });
     } else {
-      incorrectAnswers++;
-      setState(() {});
+      setState(() {
+        incorrectAnswers++;
+        bottomBarColor = Colors.red[200];
+        bottomTextColor = Colors.grey[850];
+      });
     }
-  }
-
-  indicateCorrectAnswer() {
-    
   }
 
   showConfirmationDialog(BuildContext context) {
@@ -197,11 +210,13 @@ class CubicPracticeState extends State<CubicPractice> {
                   ),
                 ),
                 Container(
-                  color: Colors.grey[800],
+                  color: bottomBarColor,
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(16),
                   child: Text(
-                      "Korrekte Anworten: $correctAnswers/${correctAnswers + incorrectAnswers}"),
+                    "Korrekte Anworten: $correctAnswers/${correctAnswers + incorrectAnswers}",
+                    style: TextStyle(color: bottomTextColor),
+                  ),
                 ),
               ],
             );
