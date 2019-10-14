@@ -1,22 +1,20 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rechtslinkstrainer/db.dart';
-import 'package:rechtslinkstrainer/result.dart';
+import 'package:rechtslinkstrainer/DbProvider.dart';
+import 'package:rechtslinkstrainer/Result.dart';
 import 'package:uuid/uuid.dart';
 
 enum Side { LEFT, RIGHT }
 
 class TextPractice extends StatefulWidget {
+  static const PRACTICE_ID = 1;
   TextPractice({Key key}) : super(key: key);
-
   @override
   TextPracticeState createState() => TextPracticeState();
 }
 
 class TextPracticeState extends State<TextPractice> {
-  static final int PRACTICE_ID = 1;
   static final String TEXT_LEFT = "Links wählen";
   static final String TEXT_RIGHT = "Rechts wählen";
   static final String TEXT_ERROR = "Da ist ein Fehler aufgetreten...";
@@ -115,7 +113,7 @@ class TextPracticeState extends State<TextPractice> {
                   var uuid = new Uuid();
                   Result res = new Result(
                       uuid: uuid.v4(),
-                      practiceId: PRACTICE_ID,
+                      practiceId: TextPractice.PRACTICE_ID,
                       timestamp: DateTime.now().toIso8601String(),
                       correct: correctAnswers,
                       incorrect: incorrectAnswers);
@@ -140,6 +138,7 @@ class TextPracticeState extends State<TextPractice> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
+                  color: Colors.grey[800],
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(16),
                   child: Text(shuffle(),
@@ -175,6 +174,7 @@ class TextPracticeState extends State<TextPractice> {
                   ),
                 ),
                 Container(
+                  color: Colors.grey[800],
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(16),
                   child: Text(

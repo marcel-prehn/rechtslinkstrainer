@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:rechtslinkstrainer/db.dart';
-import 'package:rechtslinkstrainer/progress.dart';
-import 'package:rechtslinkstrainer/textPractice.dart';
+import 'package:rechtslinkstrainer/DbProvider.dart';
+import 'package:rechtslinkstrainer/Progress.dart';
+import 'package:rechtslinkstrainer/practices/CubicPractice.dart';
+import 'package:rechtslinkstrainer/practices/TextPractice.dart';
 
 void main() {
   var routes = <String, WidgetBuilder>{
     "/TextPractice": (BuildContext context) => new TextPractice(),
+    "/CubicPractice": (BuildContext context) => new CubicPractice(),
   };
 
   runApp(MaterialApp(
@@ -16,8 +18,6 @@ void main() {
     debugShowCheckedModeBanner: false,
     routes: routes,
   ));
-
-  getProgress(1);
 }
 
 getProgress(int practiceId) {
@@ -77,7 +77,7 @@ class OverviewState extends State<Overview> {
                       leading: Icon(Icons.directions),
                       title: Text("Textuelle Übung"),
                       subtitle: FutureBuilder<Progress>(
-                        future: getProgress(1),
+                        future: getProgress(TextPractice.PRACTICE_ID),
                         builder: (BuildContext context,
                             AsyncSnapshot<Progress> snapshot) {
                           if (snapshot.hasData && snapshot.data.value != null) {
@@ -91,6 +91,28 @@ class OverviewState extends State<Overview> {
                       contentPadding: EdgeInsets.all(8),
                       onTap: () {
                         Navigator.pushNamed(context, "/TextPractice");
+                      },
+                    ),
+                  ),
+                  Card(
+                    child: ListTile(
+                      leading: Icon(Icons.center_focus_strong),
+                      title: Text("Kubische Übung"),
+                      subtitle: FutureBuilder<Progress>(
+                        future: getProgress(CubicPractice.PRACTICE_ID),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Progress> snapshot) {
+                          if (snapshot.hasData && snapshot.data.value != null) {
+                            return Text("${snapshot.data.value}% richtige Antworten");
+                          } else {
+                            return Text("keine Daten vorhanden");
+                          }
+                        },
+                      ),
+                      trailing: Icon(Icons.chevron_right),
+                      contentPadding: EdgeInsets.all(8),
+                      onTap: () {
+                        Navigator.pushNamed(context, "/CubicPractice");
                       },
                     ),
                   ),

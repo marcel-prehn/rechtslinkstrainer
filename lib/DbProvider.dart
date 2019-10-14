@@ -7,8 +7,8 @@ import 'package:synchronized/synchronized.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:rechtslinkstrainer/progress.dart';
-import 'package:rechtslinkstrainer/result.dart';
+import 'package:rechtslinkstrainer/Progress.dart';
+import 'package:rechtslinkstrainer/Result.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbProvider {
@@ -23,18 +23,15 @@ class DbProvider {
 
   Database _database;
 
-
   Future<Database> get database async {
     if (_database == null) {
       await lock.synchronized(() async {
-        // Check again once entering the synchronized block
         if (_database == null) {
           _database = await initDB();
         }
       });
     }
     return _database;
-
   }
 
   initDB() async {
