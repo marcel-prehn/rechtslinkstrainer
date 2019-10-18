@@ -72,7 +72,7 @@ class OverviewState extends State<Overview> {
                 children: <Widget>[
                   Card(
                     child: ListTile(
-                      leading: Icon(Icons.directions),
+                      leading: Icon(Icons.text_format),
                       title: Text("Textuelle Übung"),
                       subtitle: FutureBuilder<Progress>(
                         future: getProgress(TextPractice.PRACTICE_ID),

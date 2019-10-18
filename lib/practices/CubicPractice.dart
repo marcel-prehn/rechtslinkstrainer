@@ -58,7 +58,6 @@ class CubicPracticeState extends State<CubicPractice> {
 
   onButtonPressed(CubicSide side) {
     if (side == correctSide) {
-      correctAnswers++;
       setState(() {
         correctAnswers++;
         bottomBarColor = Colors.green[200];
@@ -96,7 +95,8 @@ class CubicPracticeState extends State<CubicPractice> {
                       practiceId: CubicPractice.PRACTICE_ID,
                       timestamp: DateTime.now().toIso8601String(),
                       correct: correctAnswers,
-                      incorrect: incorrectAnswers);
+                      incorrect: incorrectAnswers
+                      );
                   await DbProvider.db.saveResult(res);
                   Navigator.popUntil(context, ModalRoute.withName("/"));
                 },
