@@ -8,6 +8,8 @@ import 'package:uuid/uuid.dart';
 enum Side { LEFT, RIGHT }
 
 class TextPractice extends StatefulWidget {
+  static const String TITLE = "Textuelle Übung";
+  static const String LINK = "/TextPractice";
   static const PRACTICE_ID = 1;
   TextPractice({Key key}) : super(key: key);
 
@@ -103,7 +105,7 @@ class TextPracticeState extends State<TextPractice> {
     return WillPopScope(
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Textuelle Übung"),
+            title: Text(TextPractice.TITLE),
           ),
           body: Builder(builder: (BuildContext context) {
             return Column(

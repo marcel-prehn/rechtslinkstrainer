@@ -12,7 +12,8 @@ dependencies:
   sqflite: any
   path_provider: any
   uuid: any
-  flutter_launcher_icons: "^0.7.3"
+  flutter_launcher_icons: ^0.7.3
+  package_info: any
 
 dev_dependencies:
   flutter_test:

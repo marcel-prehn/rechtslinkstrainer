@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:rechtslinkstrainer/pages/OverviewPage.dart';
 import 'package:uuid/uuid.dart';
 
 import '../DbProvider.dart';
 import '../Result.dart';
 
 class CubicPractice extends StatefulWidget {
+  static const String TITLE = "Kubische Übung";
+  static const String LINK = "/CubicPractice";
   static const PRACTICE_ID = 2;
   CubicPractice({Key key}) : super(key: key);
 
@@ -95,10 +98,10 @@ class CubicPracticeState extends State<CubicPractice> {
                       practiceId: CubicPractice.PRACTICE_ID,
                       timestamp: DateTime.now().toIso8601String(),
                       correct: correctAnswers,
-                      incorrect: incorrectAnswers
-                      );
+                      incorrect: incorrectAnswers);
                   await DbProvider.db.saveResult(res);
-                  Navigator.popUntil(context, ModalRoute.withName("/"));
+                  Navigator.popUntil(
+                      context, ModalRoute.withName(OverviewPage.LINK));
                 },
               )
             ],
