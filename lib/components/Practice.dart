@@ -24,9 +24,9 @@ const List<Practice> practiceList = [
       title: CubicPractice.TITLE,
       id: 2,
       link: CubicPractice.LINK),
-  Practice(
-      icon: Icons.image,
-      title: ImagePractice.TITLE,
-      id: 3,
-      link: ImagePractice.LINK),
+  // Practice(
+  //     icon: Icons.image,
+  //     title: ImagePractice.TITLE,
+  //     id: 3,
+  //     link: ImagePractice.LINK),
 ];

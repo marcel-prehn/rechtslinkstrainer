@@ -115,9 +115,18 @@ class TextPracticeState extends State<TextPractice> {
                   color: Colors.grey[800],
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(16),
-                  child: Text(shuffle(),
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w500)),
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(fontSize: 24),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: "${incorrectAnswers + correctAnswers + 1} ",
+                              style: TextStyle(color: Colors.grey[500])),
+                          TextSpan(
+                              text: shuffle(),
+                              style: TextStyle(fontWeight: FontWeight.w500)),
+                        ]),
+                  ),
                 ),
                 Expanded(
                   child: Row(
@@ -153,9 +162,16 @@ class TextPracticeState extends State<TextPractice> {
                   color: bottomBarColor,
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(16),
-                  child: Text(
-                      "Korrekte Anworten: $correctAnswers / ${correctAnswers + incorrectAnswers}",
-                      style: TextStyle(color: bottomTextColor)),
+                  child: RichText(
+                    text: TextSpan(style: TextStyle(fontSize: 24), children: [
+                      TextSpan(
+                          text: "$correctAnswers",
+                          style: TextStyle(fontWeight: FontWeight.w500)),
+                      correctAnswers == 1
+                          ? TextSpan(text: " korrekte Antwort")
+                          : TextSpan(text: " korrekte Antworten")
+                    ]),
+                  ),
                 ),
               ],
             );
